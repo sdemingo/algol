@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*- 
 '''
-Problem
+Round 1A 2008
+=============
+
+Problem A
 
 You are given two vectors v1=(x1,x2,...,xn) and v2=(y1,y2,...,yn). The
 scalar product of these vectors is a single number, calculated as
