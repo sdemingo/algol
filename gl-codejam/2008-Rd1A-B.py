@@ -59,10 +59,36 @@ import string
 import os
 
 
-def main():
     
+def main():
+    f=open("2008-Rd1A-B.input")
+    f2=open("2008-Rd1A-B.output","w")
+    lines=f.readlines()
+    ntest=int(lines[0].strip())
 
+    lines=lines[1:]
+    t=0
+    off=0
+    while (t<ntest):
+        nflav=int(lines[off])
+        batches=[0 for x in range(nflav)]
+        ncost=int(lines[off+1])
+        for i in range(0,ncost):
+            cost=lines[off+2+i].split(" ")
+            cost=list(map(int,cost))
+            nmilks=cost[0]
+            cost=cost[1:]
+            for m in range(nmilks):
+                f,m,*rest=cost
+                ## Prepare the milshake
+                #...
+                
+        t+=1
+       
 
+        print ("Case #"+str(t)+": ")
+ 
+                
 
 if (__name__=='__main__'):
     main()
