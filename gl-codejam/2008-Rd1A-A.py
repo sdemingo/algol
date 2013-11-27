@@ -31,7 +31,8 @@ import operator
 
 
 def main():
-    f=open("2008-Rd1A.input")
+    f=open("2008-Rd1A-A.small.input")
+    f2=open("2008-Rd1A-A.output","w")
     lines=f.readlines()
     ntest=int(lines[0].strip())
 
@@ -50,11 +51,13 @@ def main():
 
         for i in range(0,len(v1)):
             scalar=scalar+(v1[i]*v2[i])
-        print ("Case #"+str(int(t)+1)+": "+str(scalar))
+
+        f2.write("Case #"+str(int(t)+1)+": "+str(scalar)+"\n")
 
         t+=1
         off+=3
 
+    f2.close()
 
 
 
