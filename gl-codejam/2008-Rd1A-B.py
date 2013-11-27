@@ -58,10 +58,29 @@ import sys
 import string
 import os
 
+def areConflicts(flavour,option):
+    for c in clients:
+        if c[flavour]!=option:
+            return True;   #Otro cliente lo ha pedido diferente
+    return False;
+
+
+def prepare(clients,batches):
+
+    # Ordenar los clientes por peso, de más a menos:  los que solo piden
+    # una cosa caliente, los que solo piden una cosa fria, los que piden
+    # varias cosas pero al menos una caliente, los que piden varias
+    # cosas y todas frias
+        
+        
+               
+            
+
+
 
     
 def main():
-    f=open("2008-Rd1A-B.input")
+    f =open("2008-Rd1A-B.input")
     f2=open("2008-Rd1A-B.output","w")
     lines=f.readlines()
     ntest=int(lines[0].strip())
@@ -71,24 +90,30 @@ def main():
     off=0
     while (t<ntest):
         nflav=int(lines[off])
-        batches=[0 for x in range(nflav)]
+        batches=[0 for x in range(nflav)]  # estado final de mis N vasos
         ncost=int(lines[off+1])
+        costs=[]   # estado todos los clientes
         for i in range(0,ncost):
-            cost=lines[off+2+i].split(" ")
-            cost=list(map(int,cost))
-            nmilks=cost[0]
-            cost=cost[1:]
+            request=[-1 for x in range(nflav)]   # peticion de ese cliente
+            c=lines[off+2+i].split(" ")
+            c=list(map(int,c))
+            nmilks=c[0]
+            c=c[1:]
             for m in range(nmilks):
-                f,m,*rest=cost
-                ## Prepare the milshake
-                #...
-                
+                f,m,*rest=c
+                request[f-1]=m   # el cliente i quiere ese sabor f como m (malted o unmalted)
+                c=rest
+            costs.append(request)
+    
+        batches=prepare(costs,batches)
         t+=1
        
-
-        print ("Case #"+str(t)+": ")
- 
+        print ("Case #"+str(t)+": "+batches)
+        print (costs)
                 
+
+
+
 
 if (__name__=='__main__'):
     main()
