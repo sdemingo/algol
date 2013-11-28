@@ -54,33 +54,68 @@ For each test case, there will be:
 
 '''
 
-import sys
-import string
-import os
-
-def areConflicts(flavour,option):
-    for c in clients:
-        if c[flavour]!=option:
-            return True;   #Otro cliente lo ha pedido diferente
-    return False;
-
+import operator
 
 def prepare(clients,batches):
 
-    # Ordenar los clientes por peso, de más a menos:  los que solo piden
+    clients.sort(key=operator.itemgetter(0))
+    #print (clients)
+    for c in clients:
+        client_ok=False
+        request=c[1]
+        for r in enumerate(request):
+            i,f=r
+            if (f!=-1):
+                if (batches[i]==-1):   # Vaso no configurado
+                    batches[i]=f
+                    client_ok=True
+                else:                  # Vaso ya configurado
+                    if (batches[i]==f):  
+                        client_ok=True
+            if (client_ok):  # Si el cliente ya se ha satisfecho sigo
+                break
+    
+        if (not client_ok):  # Si el cliente no tiene más peticiones y no está satisfecho error
+            return "IMPOSSIBLE"
+
+
+    # Los vasos no utilizados los pongo a 0
+    for i in range(len(batches)):
+        if batches[i]==-1:
+            batches[i]=0
+
+    batches=map(str,batches)
+    return " ".join(batches)
+
+            
+def client_weight(request):
+    
+    # Se suman los -1s y los 0s. Los que menos cosas pidan tendrán menos peso
+    # Además los que tengan algún uno multiplican esta suma por N (longitud de request)
+    # para tener siempre la mínima puntuación:
+    # Los que solo piden
     # una cosa caliente, los que solo piden una cosa fria, los que piden
     # varias cosas pero al menos una caliente, los que piden varias
     # cosas y todas frias
-        
-        
-               
+
+    w=0
+    malted=False
+    for i in request:
+        if ((i==0) or (i==-1)):
+            w+=i
+        if (i==1):
+            malted=True
+
+    if (malted):
+        return w*2
+    else:
+        return w
             
-
-
 
     
 def main():
-    f =open("2008-Rd1A-B.input")
+    f =open("2008-Rd1A-B.small.input")
+    #f =open("2008-Rd1A-B.input")
     f2=open("2008-Rd1A-B.output","w")
     lines=f.readlines()
     ntest=int(lines[0].strip())
@@ -90,9 +125,9 @@ def main():
     off=0
     while (t<ntest):
         nflav=int(lines[off])
-        batches=[0 for x in range(nflav)]  # estado final de mis N vasos
+        batches=[-1 for x in range(nflav)]  # estado final de mis N vasos
         ncost=int(lines[off+1])
-        costs=[]   # estado todos los clientes
+        clients=[]   # estado todos los clientes y sus pesos
         for i in range(0,ncost):
             request=[-1 for x in range(nflav)]   # peticion de ese cliente
             c=lines[off+2+i].split(" ")
@@ -103,13 +138,18 @@ def main():
                 f,m,*rest=c
                 request[f-1]=m   # el cliente i quiere ese sabor f como m (malted o unmalted)
                 c=rest
-            costs.append(request)
+            # Calculo el peso del cliente y lo inserto junto con los demás
+            w=client_weight(request)
+            client=[w]+[request]
+            clients.append(client)
     
-        batches=prepare(costs,batches)
+        out=prepare(clients,batches)
         t+=1
+        off+=2+ncost
        
-        print ("Case #"+str(t)+": "+batches)
-        print (costs)
+        print ("Case #"+str(t)+": "+out)
+        f2.write("Case #"+str(t)+": "+out+"\n")
+        #print (clients)
                 
 
 
