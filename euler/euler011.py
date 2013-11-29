@@ -31,65 +31,66 @@ str_grid='''
 '''
 
 
-## Maximo producto de cuatro numeros en una lista
-def maxFourProduct(numbers):
-    a=i=0
-    max=0
-    while (i<len(numbers)-3):
-        p=numbers[i]*numbers[i+1]*numbers[i+2]*numbers[i+3]
-        if (p>max):
-            max=p
-        i+=1
-    return max
+def multiProduct(row,col,grid):
+
+    left=right=up=down=1
+
+    for i in range(4):
+        if ((row-i)>=0):
+            up*=grid[row-i][col]
+
+    for i in range(4):
+        if ((row+i)<20):
+            down*=grid[row+i][col]
+
+    for i in range(4):
+        if ((col-i)>=0):
+            left*=grid[row][col-i]
+
+    for i in range(4):
+        if ((col+i)<20):
+            right*=grid[row][col+i]
+
+    d1=d2=d3=d4=1  # Diagonals
+
+    for i in range(4):
+        if (((row-i)>=0) and ((col-i)>=0)):
+            d1*=grid[row-i][col-i]
+
+    for i in range(4):
+        if (((row-i)>=0) and ((col+i)<20)):
+            d2*=grid[row-i][col+i]
+
+    for i in range(4):
+        if (((row+i)<20) and ((col+i)<20)):
+            d3*=grid[row+i][col+i]
+
+    for i in range(4):
+        if (((row+i)<20) and ((col+i)>=0)):
+            d4*=grid[row+i][col-i]
+
+    return max(left,right,up,down,d1,d2,d3,d4)
+        
 
 
 
 def main():
     
     grid=[]
+    max=0
     str_rows=str_grid.strip().split("\n")
     
     for row in str_rows:
         grid.append(list(map(int,row.split(" "))))
 
-    #print (grid)
+    for i in range(20):
+        for j in range(20):
+            n=multiProduct(i,j,grid)
+            if (n>max):
+                max=n
 
-    max=0
-    # Saco el máximo de todas las filas
-    for r in grid:
-        m=maxFourProduct(r)
-        if (m>max):
-            max=m
-    
-    # Saco el máximo de todas las columnas
-    col_height=len(grid)
-    for i in range(col_height):
-        col=[]
-        for r in grid:
-            col.append(r[i])  # Creo una lista por cada columna
-        m=maxFourProduct(col)
-        if (m>max):
-            max=m
+    print(max)
 
-
-    # Saco el máxmio de todas las diagonales derechas -> ///
-    i=3
-    while (i>0):
-        diag=[]
-        r=0
-        while (r<col_height):
-            diag.append(grid[r][i])
-            
-
-
-    # Saco el máximo de todas las diagonales izquierdas -> \\\
-            
-
-
-    print (max)
-        
-
-    
 
 
 
