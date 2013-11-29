@@ -90,32 +90,26 @@ def prepare(clients,batches):
             
 def client_weight(request):
     
-    # Se suman los -1s y los 0s. Los que menos cosas pidan tendrán menos peso
-    # Además los que tengan algún uno multiplican esta suma por N (longitud de request)
-    # para tener siempre la mínima puntuación:
-    # Los que solo piden
-    # una cosa caliente, los que solo piden una cosa fria, los que piden
-    # varias cosas pero al menos una caliente, los que piden varias
-    # cosas y todas frias
-
+    # Se suman los -1s, los 0s y los 1s. Siempre se da prioridad a los
+    #  que menos cosas pidan y en igualdad de da prioridad a los que
+    #  menos cosas malted pidan para minimizar así el maltado de las
+    #  cubetas.
+    
     w=0
-    malted=False
+    m=1
     for i in request:
-        if ((i==0) or (i==-1)):
-            w+=i
-        if (i==1):
-            malted=True
-
-    if (malted):
-        return w*2
-    else:
-        return w
+        w+=i
+        if (i==-1):
+            m+=1
             
+
+    return m*w
+
 
     
 def main():
-    f =open("2008-Rd1A-B.small.input")
-    #f =open("2008-Rd1A-B.input")
+    #f =open("2008-Rd1A-B.small.input")
+    f =open("2008-Rd1A-B.input")
     f2=open("2008-Rd1A-B.output","w")
     lines=f.readlines()
     ntest=int(lines[0].strip())
