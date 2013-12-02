@@ -4,58 +4,73 @@ To Add or to Multiply
 '''
 
 
-def instructionA(config,output,undo=False): 
-    if (undo):
-        for i in range(len(output)):
-            output[i]-=config['a']
-    else:
-        for i in range(len(output)):
-            output[i]+=config['a']
+class Tree():
+
+    def __init__(self,config,output,op):
+        self.config=config
+        self.output=output
+        self.op=op
+
+        self.aChild=None
+        self.mChild=None
 
 
-
-def instructionM(config,output,undo=False): 
-    if (undo):
-        for i in range(len(output)):
-            output[i]//=config['m']
-    else:
-        for i in range(len(output)):
-            output[i]*=config['m']
-
-
-
-
-def applyIns(config,output,program):
-    if ( (min(output)>=config['r']) and (max(output)<=config['s'])): # fin del programa. Éxito
-        print ("Exito: "+str(program)+" salida: "+str(output))
+    # Compruebo limites por exceso
+    def isValid(self): 
+        if (self.output[1]>self.config['s']):
+            return False
         return True
-    else:
-        instructionM(config,output)
-        if (max(output)>config['s']):
-            instructionM(config,output,True)# Deshacer mul
-            return False     # camino excedido
-        else:
-            program.append("M")
-            if ( (min(output)>=config['r']) and (max(output)<=config['s'])): # Exito
-                print ("Exito: "+str(program)+" salida: "+str(output))
-                instructionM(config,output,True)# Deshacer mul
 
-        applyIns(config,output,program)
 
-        instructionA(config,output)
-        if (max(output)>config['s']):
-            instructionA(config,output,True)# Deshacer sum
-            return False     # camino excedido
-        else:
-            program.append("A")
-            if ( (min(output)>=config['r']) and (max(output)<=config['s'])): # Exito
-                print ("Exito: "+str(program)+" salida: "+str(output))
-                instructionA(config,output,True)# Deshacer mul
+    # Compruebo si es un nodo exitoso
+    def isSuccess(self):
+        if ( (self.output[0]>=self.config['r']) and (self.output[1]<=self.config['s'])):
+            return True
+        return False
 
-        applyIns(config,output,program)
+            
+    # Construyo los arboles hijos siempre y cuando estos cumplan
+    # el requisito de validez
+    def build(self):
+        aout=[0,0]
+        mout=[0,0]
+
+        aout[0]=self.output[0]+self.config['a']
+        aout[1]=self.output[1]+self.config['a']
+
+        mout[0]=self.output[0]*self.config['m']
+        mout[1]=self.output[1]*self.config['m']
+
+        self.aChild=Tree(self.config,aout,"A")
+        self.mChild=Tree(self.config,mout,"M")
+
+        if (self.aChild.isValid()):
+            self.aChild.build()
+
+        if (self.mChild.isValid()):
+            self.mChild.build()
 
           
 
+
+def walkTree(succs,program,tree):
+
+    if (tree==None):
+        return
+
+    program.append(tree.op)
+
+    if (not tree.isSuccess()):
+        walkTree(succs,program,tree.mChild)
+        walkTree(succs,program,tree.aChild)
+    else:
+        pcopy=program[:]
+        succs.append(pcopy)
+        #print ("Econtrado nº"+str(len(succs))+": "+str(program)+ "output: "+str(tree.output))
+
+    program.pop()
+        
+        
 
 
 def main():
@@ -66,8 +81,20 @@ def main():
 
     output=[2,3]
     program=[]
-    applyIns(config,output,program)
+    success=[]
 
+    tree=Tree(config,output,"")
+    tree.build()
+    print ("Arbol construido")
+
+    walkTree(success,program,tree)
+
+    # comprimo los programas de success en strings y los ordeno
+    programs=[]
+    for p in success:
+        programs.append(" ".join(p))
+
+    print (programs)
  
 
 
