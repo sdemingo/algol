@@ -2,33 +2,37 @@
 Sergio de Mingo Gil
 '''
 
-def queryDistance(dx,dy,coffees,distance):
+import math
+
+def distance(a,b,c,d):
+    return math.fabs(a-c)+math.fabs(b-d)
+
+
+def queryDistance(dx,dy,coffees,dist):
     #print (coffees)
     #print (distance)
     grid=[[0]*dx for i in range(dy)]
     maxp=0
     locations=[]
     for c in coffees:
-        grid[c[0]-1][c[1]-1]=-100
-        i=c[0]-distance
-        while ((i<=c[0]+distance)  and (i<dy)):
-            j=c[1]-distance
-            while ((j<=c[1]+distance) and (j<dx)):
-                grid[i][j]+=1
-                if (grid[i][j]>=maxp):
-                    maxp=grid[i][j]
-                    locations.append([i,j])
-                j+=1
-            i+=1
+        c_i=c[0]-1
+        c_j=c[1]-1
+        grid[c_i][c_j]=-100
+        for i in range(max(0,c_i-dist),min(c_i+dist+1,dy)):
+            for j in  range(max(0,c_j-dist),min(c_j+dist+1,dx)):
+                if (distance(i,j,c_i,c_j)<=dist):
+                    grid[i][j]+=1
+                    if (grid[i][j]>=maxp):
+                        maxp=grid[i][j]
+                        locations.append((grid[i][j],[i,j]))
 
 
-    print (grid)
+    #print (grid)
     #print (locations)
-    loc=locations.pop()
+    num,loc=locations.pop()
     loc[0]+=1
     loc[1]+=1
-    #print (loc)
-    return loc
+    return (num,loc)
 
 def main():
     
@@ -65,10 +69,10 @@ def main():
         # print (distances)
 
         print ("Case "+str(test))
-        d=distances[1]
-        #for d in distances:
-        loc=queryDistance(dx,dy,coffees,d)
-        print (loc)
+        #d=distances[0]
+        for d in distances:
+            n,loc=queryDistance(dx,dy,coffees,d)
+            print ("{0} ({1},{2})".format(n,loc[0],loc[1]))
 
 
 
