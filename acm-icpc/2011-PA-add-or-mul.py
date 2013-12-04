@@ -157,11 +157,12 @@ def main():
                 minlen=len(p)
 
         # Solo me quedo con los que tienen esa longitu mínima
+        # y en caso de empate los ordeno lexicograficamente como si
+        # fueran strings
         programs=[] 
         for p in success:
             if len(p)==minlen:
-                programs.append(compressProgram(p))
-
+                programs.append("".join(p))
 
         programs.sort()
 
@@ -171,7 +172,7 @@ def main():
         if (len(programs)==0):
             msg="impossible"
         else:
-            best=programs[0]
+            best=compressProgram(programs[0])
             if len(best)==0:
                 msg="empty"
             else:
