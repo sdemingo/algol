@@ -13,7 +13,7 @@ def queryDistance(dx,dy,coffees,dist):
     #print (distance)
     grid=[[0]*dx for i in range(dy)]
     maxp=0
-    locations=[]
+    loc=[0,0]
     for c in coffees:
         c_i=c[0]-1
         c_j=c[1]-1
@@ -22,17 +22,31 @@ def queryDistance(dx,dy,coffees,dist):
             for j in  range(max(0,c_j-dist),min(c_j+dist+1,dx)):
                 if (distance(i,j,c_i,c_j)<=dist):
                     grid[i][j]+=1
-                    if (grid[i][j]>=maxp):
+                    if (grid[i][j]>maxp): # Si maxp es mayor sustituimos siempre
                         maxp=grid[i][j]
-                        locations.append((grid[i][j],[i,j]))
+                        loc=[i,j]
+                    if (grid[i][j]==maxp):
+                        if (j>loc[1]):   # si está más al sur
+                            #pillado
+                            maxp=grid[i][j]
+                            loc=[i,j]
+                        else:
+                            if ((j==loc[1]) and (i>loc[0])):  # si igual al sur pero más al oeste
+                                maxp=grid[i][j]
+                                loc=[i,j]
+                                
+                        # solo sustituimos si las coordeandas con menores
+                        #locations.append((grid[i][j],[i,j]))
+                        #locations.append("({0},{1})".format(i+1,j+1))
 
 
     #print (grid)
     #print (locations)
-    num,loc=locations.pop()
-    loc[0]+=1
-    loc[1]+=1
-    return (num,loc)
+    #locations.sort()
+    #loc=locations.pop()
+    #loc[0]+=1
+    #loc[1]+=1
+    return (maxp,"({0},{1})".format(loc[0]+1,loc[1]+1))
 
 def main():
     
@@ -72,7 +86,7 @@ def main():
         #d=distances[0]
         for d in distances:
             n,loc=queryDistance(dx,dy,coffees,d)
-            print ("{0} ({1},{2})".format(n,loc[0],loc[1]))
+            print ("{0} {1}".format(n,loc))
 
 
 
