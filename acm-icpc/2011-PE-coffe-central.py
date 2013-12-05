@@ -1,19 +1,28 @@
 '''
-Sergio de Mingo Gil
+Problem E
+Coffe Central
 '''
 
 import math
 
-def distance(a,b,c,d):
-    return math.fabs(a-c)+math.fabs(b-d)
+
+
+# Para cada distancia dada recibo la lista de todos los cafes del grid
+# compruebo un área con forma de cuadrado de lado 'dist' y con el centro
+# el cafe. Desde todos estos puntos mido la distancia al cafe y para los
+# puntos que sean válida, incremento su valor en la matriz de pesos. Al
+# final solo he de tomar de esta matriz de pesos la casilla que tenga un
+# número mayor (maxp). En caso de encontrar un casilla con un valor
+# igual al último maxp encontrado me quedo con la que esté más al sur y
+# más al oeste.
 
 
 def queryDistance(dx,dy,coffees,dist):
-    #print (coffees)
-    #print (distance)
+
     grid=[[0]*dx for i in range(dy)]
     maxp=0
     loc=[0,0]
+
     for c in coffees:
         c_i=c[0]-1
         c_j=c[1]-1
@@ -22,31 +31,29 @@ def queryDistance(dx,dy,coffees,dist):
             for j in  range(max(0,c_j-dist),min(c_j+dist+1,dx)):
                 if (distance(i,j,c_i,c_j)<=dist):
                     grid[i][j]+=1
-                    if (grid[i][j]>maxp): # Si maxp es mayor sustituimos siempre
+                    # Si maxp es mayor sustituimos siempre
+                    if (grid[i][j]>maxp): 
                         maxp=grid[i][j]
                         loc=[i,j]
+
                     if (grid[i][j]==maxp):
-                        if (j>loc[1]):   # si está más al sur
-                            #pillado
+                        if (j<loc[1]):   # si está más al sur
                             maxp=grid[i][j]
                             loc=[i,j]
                         else:
-                            if ((j==loc[1]) and (i>loc[0])):  # si igual al sur pero más al oeste
+                            # si igual al sur pero más al oeste
+                            if ((j==loc[1]) and (i<loc[0])): 
                                 maxp=grid[i][j]
                                 loc=[i,j]
-                                
-                        # solo sustituimos si las coordeandas con menores
-                        #locations.append((grid[i][j],[i,j]))
-                        #locations.append("({0},{1})".format(i+1,j+1))
 
-
-    #print (grid)
-    #print (locations)
-    #locations.sort()
-    #loc=locations.pop()
-    #loc[0]+=1
-    #loc[1]+=1
     return (maxp,"({0},{1})".format(loc[0]+1,loc[1]+1))
+
+
+
+def distance(a,b,c,d):
+    return math.fabs(a-c)+math.fabs(b-d)
+
+
 
 def main():
     
@@ -77,13 +84,8 @@ def main():
             distance=lines[d+i].strip().split()
             distances.append(int(distance[0]))
         i+=q
-            
-        # print (city)
-        # print (coffes)
-        # print (distances)
 
         print ("Case "+str(test))
-        #d=distances[0]
         for d in distances:
             n,loc=queryDistance(dx,dy,coffees,d)
             print ("{0} {1}".format(n,loc))
