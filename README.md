@@ -1,11 +1,17 @@
 
 
-Algorithms, quests an other python stuff
+  == Algorithms, quests an other python stuff ==
 
-Pointers and references:
 
-- ACM-ICPC: http://icpc.baylor.edu/worldfinals/problems
+- acm-icpc
+	Problems of ACM-ICPC. More info at http://icpc.baylor.edu/worldfinals/problems
 
-- Google Code Jam: https://code.google.com/codejam/
+- gl-codejam
+	Problems of Google Code Jam. More info at https://code.google.com/codejam/
 
-- Euler Project: http://projecteuler.net/problems
+- euler
+	Problems of Project Euler. More info at http://projecteuler.net/problems
+
+- clrs-book
+  	Problems and exercises of "Introduction to Algorithms" by
+	Cormen, Leiserson, Rivest and Stein (CLRS book)
