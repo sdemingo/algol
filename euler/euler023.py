@@ -37,23 +37,29 @@ def divisors(n):
     for i in range(1, int(math.sqrt(n) + 1)):
         if n % i is 0:
             yield i
-            if i is not n / i:
-                large_divisors.insert(0, n / i)
+            if i is not n // i:
+                large_divisors.insert(0, n // i)
 
     for divisor in large_divisors:
         yield divisor
 
 
 
-
 def main():
 
+    ab=[]
     for n in range(MAX):
         s=sum(list(divisors(n)))-n
         if (s>n):
-            if (n%2)!=0:
-                print ("{0} es abundante y no es par".format(n))
+            ab.append(n)
 
+    nab=list(range(MAX))
+    for i in ab:
+        for j in ab:
+            if i + j < MAX:
+                nab[i + j]=0
+
+    print (str(sum(nab)))
 
 
 
