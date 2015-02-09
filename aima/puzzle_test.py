@@ -41,10 +41,19 @@ def main():
     print " Solving ... "
     
     rootState = TreeNode(None,p)  
+
+
     finalState = search(rootState,breadFirstSearch)
-    
-    rootState = TreeNode(None,p)
+    print rootState.state
+    print finalState.state
+    print "Solution depth: "+str(finalState.depth())
+    print
+
     finalState = search(rootState,deepFirstSearch)
+    print rootState.state
+    print finalState.state
+    print "Solution depth: "+str(finalState.depth())
+    print
     
     
 

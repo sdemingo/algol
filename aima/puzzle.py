@@ -86,6 +86,18 @@ class Puzzle():
 
 
 
+# Heuristics 
+def misplacedTiles(puzzle):
+
+    mplaced=0
+    pFinal=Puzzle(FINAL)
+    for row,c in enumerate(puzzle.board):
+        for col,c in enumerate(puzzle.board[row]):
+            if puzzle.board[row][col] != pFinal.board[row][col]:
+                mplaced+=1
+
+    return mplaced
+
 
 
 
@@ -95,13 +107,14 @@ class TreeNode():
     def __init__(self,parent,s):
         self.parent=parent
         self.state=s
-        self.childs=[]
 
 
     def expand(self):
+        self.childs=[]
         news=self.state.nexts()
         for nstate in news:
-            child=TreeNode(self,nstate)
+            c_nstate=copy.deepcopy(nstate)
+            child=TreeNode(self,c_nstate)
             self.childs.append(child)
 
 
