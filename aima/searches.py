@@ -4,7 +4,7 @@
 
 '''
 
-   Search strategies to resolve the n-puzzle problem
+   Uninformed search strategies to resolve the n-puzzle problem
 
 '''
 
@@ -47,3 +47,37 @@ def deepFirstSearch(node):
 
         return None
 
+
+
+'''
+
+   Informed search strategies to resolve the n-puzzle problem
+
+'''
+
+
+def greedy(node, heuristic):
+
+    if node.depth() >= MAX_DEPTH:
+        return None
+
+    if node.state.isFinal():
+        return node
+    else:
+        node.expand()
+        childs=node.childs
+
+        # sort candidates childs by heuristic value
+        candidates=[]
+        for c in childs:
+            h=heuristic(c.state)
+            candidates.append((h,c))
+        
+        candidates.sort(key=lambda tup:tup[0])
+
+        for h,c in candidates:
+            fstate = greedy(c,heuristic)
+            if fstate != None:
+                return fstate
+
+        return None

@@ -27,8 +27,22 @@ def wtime(f):
 
 
 @wtime
-def search(tree,f):
-    return f(tree)
+def search(tree,f,h=None):
+    if h==None:
+        return f(tree)
+    else:
+        return f(tree,h)
+
+
+def showSolution(rootState, finalState):
+    if finalState!=None:
+        print rootState.state
+        print finalState.state
+        print "Solution depth: "+str(finalState.depth())
+        print
+    else:
+        print "No solution founded"
+        print
 
 
 
@@ -42,18 +56,17 @@ def main():
     
     rootState = TreeNode(None,p)  
 
+    # Uninformed searches
 
     finalState = search(rootState,breadFirstSearch)
-    print rootState.state
-    print finalState.state
-    print "Solution depth: "+str(finalState.depth())
-    print
-
     finalState = search(rootState,deepFirstSearch)
-    print rootState.state
-    print finalState.state
-    print "Solution depth: "+str(finalState.depth())
-    print
+
+
+    # Informed searches
+
+    finalState = search(rootState,greedy,misplacedTiles)
+    finalState = search(rootState,greedy,manhattanDistances)
+    
     
     
 

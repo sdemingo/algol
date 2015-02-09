@@ -40,8 +40,8 @@ class Puzzle():
     # Find a tile in the board
     def find(self,i):
          for row,c in enumerate(self.board):
-            for col,c in enumerate(self.board[i]):
-                if self.board[row][col]==i:
+            for col,c in enumerate(self.board[row]):
+                if self.board[row][col] == i:
                     return row,col
 
     # Performs a move
@@ -86,7 +86,9 @@ class Puzzle():
 
 
 
-# Heuristics 
+
+# NPuzzle Heuristics functions
+
 def misplacedTiles(puzzle):
 
     mplaced=0
@@ -97,6 +99,23 @@ def misplacedTiles(puzzle):
                 mplaced+=1
 
     return mplaced
+
+
+def manhattanDistances(puzzle):
+
+    dist=0
+    for i in range(0,(N*N)-1):
+        (col,row)=puzzle.find(i)
+        expected_row = int(i / N)
+        expected_col = int(i % N)
+        dist += abs(col-expected_col) + abs(row-expected_row)
+
+    return dist
+ 
+
+
+
+
 
 
 
