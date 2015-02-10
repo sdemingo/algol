@@ -27,7 +27,7 @@ def breadFirstSearch(treenode):
 
 
 
-MAX_DEPTH=12   #Depth limite
+MAX_DEPTH=11   #Depth limite
 
 
 def deepFirstSearch(node):
