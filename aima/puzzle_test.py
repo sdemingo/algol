@@ -58,15 +58,16 @@ def main():
 
     # Uninformed searches
 
-    finalState = search(rootState,breadFirstSearch)
-    finalState = search(rootState,deepFirstSearch)
+    # finalState = search(rootState,breadFirstSearch)
+    # finalState = search(rootState,deepFirstSearch)
 
 
     # Informed searches
 
     finalState = search(rootState,greedy,misplacedTiles)
     finalState = search(rootState,greedy,manhattanDistances)
-    
+
+    finalState = search(rootState,a_star,misplacedTiles)
     
     
 

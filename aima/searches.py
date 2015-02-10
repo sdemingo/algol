@@ -81,3 +81,33 @@ def greedy(node, heuristic):
                 return fstate
 
         return None
+
+
+
+def a_star(node, heuristic):
+
+    if node.depth() >= MAX_DEPTH:
+        return None
+
+    if node.state.isFinal():
+        return node
+    else:
+        node.expand()
+        child_cost=node.depth()+1
+        childs=node.childs
+
+        # sort candidates childs by heuristic and acumulated cost (in
+        # this example, is the depth of the node) value
+        candidates=[]
+        for c in childs:
+            h=heuristic(c.state) + child_cost
+            candidates.append((h,c))
+        
+        candidates.sort(key=lambda tup:tup[0])
+
+        for h,c in candidates:
+            fstate = greedy(c,heuristic)
+            if fstate != None:
+                return fstate
+
+        return None
