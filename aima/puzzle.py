@@ -10,7 +10,7 @@
 
 
 import random
-import copy
+
 
 
 N=3                                 # N-puzzle dimension
@@ -112,41 +112,3 @@ def manhattanDistances(puzzle):
 
     return dist
  
-
-
-
-
-
-
-
-
- 
-class TreeNode():
-    
-    def __init__(self,parent,s):
-        self.parent=parent
-        self.state=s
-
-
-    def expand(self):
-        self.childs=[]
-        news=self.state.nexts()
-        for nstate in news:
-            c_nstate=copy.deepcopy(nstate)
-            child=TreeNode(self,c_nstate)
-            self.childs.append(child)
-
-
-    def depth(self):
-        c=0
-        node=self
-        while(node.parent):
-            c+=1
-            node=node.parent
-        return c
-
-
-
-
-
-

@@ -2,6 +2,53 @@
 # -*- coding: utf-8 -*- 
 
 
+
+
+
+
+import copy
+
+
+
+'''
+
+   Search tree
+
+'''
+ 
+class TreeNode():
+    
+    def __init__(self,parent,s):
+        self.parent=parent
+        self.state=s
+
+
+    def expand(self):
+        self.childs=[]
+        news=self.state.nexts()
+        for nstate in news:
+            c_nstate=copy.deepcopy(nstate)
+            child=TreeNode(self,c_nstate)
+            self.childs.append(child)
+
+
+    def depth(self):
+        c=0
+        node=self
+        while(node.parent):
+            c+=1
+            node=node.parent
+        return c
+
+
+
+
+
+
+
+
+
+
 '''
 
    Uninformed search strategies to resolve the n-puzzle problem
