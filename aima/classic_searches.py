@@ -2,10 +2,6 @@
 # -*- coding: utf-8 -*- 
 
 
-
-
-
-
 import copy
 
 
@@ -51,7 +47,7 @@ class TreeNode():
 
 '''
 
-   Uninformed search strategies to resolve the n-puzzle problem
+   Uninformed search strategies
 
 '''
 
@@ -98,7 +94,7 @@ def deepFirstSearch(node):
 
 '''
 
-   Informed search strategies to resolve the n-puzzle problem
+   Informed search strategies
 
 '''
 

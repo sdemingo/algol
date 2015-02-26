@@ -9,6 +9,7 @@
 '''
 
 from classic_searches import *
+from local_searches import *
 from puzzle import *
 import time
 
@@ -64,12 +65,16 @@ def main():
 
     # Informed searches
 
-    finalState = search(rootState,greedy,misplacedTiles)
-    finalState = search(rootState,greedy,manhattanDistances)
+    # finalState = search(rootState,greedy,misplacedTiles)
+    # finalState = search(rootState,greedy,manhattanDistances)
 
-    finalState = search(rootState,a_star,misplacedTiles)
-    
-    
+    #finalState = search(rootState,a_star,misplacedTiles)
+    #print finalState.state
+
+    # Local Searches
+    # print p
+    finalState = search(p,hillClimbing,misplacedTiles)
+    print finalState
 
 
 
