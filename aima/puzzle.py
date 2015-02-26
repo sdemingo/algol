@@ -10,7 +10,7 @@
 
 
 import random
-
+import copy
 
 
 N=3                                 # N-puzzle dimension

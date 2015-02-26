@@ -8,7 +8,7 @@
 
 '''
 
-from searches import *
+from classic_searches import *
 from puzzle import *
 import time
 
